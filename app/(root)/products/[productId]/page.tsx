@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer"
 import Gallery from "@/components/Gallery"
 import ProductCard from "@/components/ProductCard"
 import ProductInfo from "@/components/ProductInfo"
@@ -14,14 +15,15 @@ const ProductDetails = async ({ params }: { params: { productId: string }}) => {
       <ProductInfo productInfo={productDetails} />
     </div>
 
-    <div className="flex flex-col items-center px-10 py-5 max-md:px-3">
-      <p className="text-heading3-bold">Related Products</p>
-      <div className="flex flex-wrap gap-16 mx-auto mt-8">
+    <div className="flex flex-col items-center px-10 py-5 max-md:px-3 font-notosanslao">
+      <p className="text-heading3-bold">ສິນຄ້າທີ່ກ່ຽວຂ້ອງ</p>
+      <div className="flex flex-wrap justify-center gap-16 mx-auto mt-8">
         {relatedProducts?.map((product: ProductType) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </div>
     </div>
+    <Footer/>
     </>
   )
 }

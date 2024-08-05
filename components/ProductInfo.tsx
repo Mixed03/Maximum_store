@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import HeartFavorite from "./HeartFavorite";
 import { MinusCircle, PlusCircle } from "lucide-react";
 
 import useCart from "@/lib/hooks/useCart";
@@ -10,35 +9,32 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
   const [selectedColor, setSelectedColor] = useState<string>(
     productInfo.colors[0]
   );
-  const [selectedSize, setSelectedSize] = useState<string>(
-    productInfo.sizes[0]
-  );
+  const [selectedSize, setSelectedSize] = useState<SizeType>(productInfo.sizes[0]);
   const [quantity, setQuantity] = useState<number>(1);
 
   const cart = useCart();
 
   return (
-    <div className="max-w-[400px] flex flex-col gap-4">
+    <div className="max-w-[400px] flex flex-col gap-4 font-notosanslao">
       <div className="flex justify-between items-center">
         <p className="text-heading3-bold">{productInfo.title}</p>
-        <HeartFavorite product={productInfo} />
       </div>
 
       <div className="flex gap-2">
-        <p className="text-base-medium text-grey-2">Category:</p>
+        <p className="text-base-medium text-grey-2">ໝວດໝູ່:</p>
         <p className="text-base-bold">{productInfo.category}</p>
       </div>
 
-      <p className="text-heading3-bold">$ {productInfo.price}</p>
+      <p className="text-heading3-bold">₭ {productInfo.price}</p>
 
       <div className="flex flex-col gap-2">
-        <p className="text-base-medium text-grey-2">Description:</p>
+        <p className="text-base-medium text-grey-2">ຄຳອະທິບາຍ:</p>
         <p className="text-small-medium">{productInfo.description}</p>
       </div>
 
       {productInfo.colors.length > 0 && (
         <div className="flex flex-col gap-2">
-          <p className="text-base-medium text-grey-2">Colors:</p>
+          <p className="text-base-medium text-grey-2">ສີ:</p>
           <div className="flex gap-2">
             {productInfo.colors.map((color, index) => (
               <p
@@ -57,17 +53,17 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
 
       {productInfo.sizes.length > 0 && (
         <div className="flex flex-col gap-2">
-          <p className="text-base-medium text-grey-2">Sizes:</p>
+          <p className="text-base-medium text-grey-2">ໄຊສ໌:</p>
           <div className="flex gap-2">
-            {productInfo.sizes.map((size, index) => (
+            {productInfo.sizes.map((sizeObj, index) => (
               <p
                 key={index}
                 className={`border border-black px-2 py-1 rounded-lg cursor-pointer ${
-                  selectedSize === size && "bg-black text-white"
+                  selectedSize.size === sizeObj.size && "bg-black text-white"
                 }`}
-                onClick={() => setSelectedSize(size)}
+                onClick={() => setSelectedSize(sizeObj)}
               >
-                {size}
+                {sizeObj.size} ({sizeObj.stock})
               </p>
             ))}
           </div>
@@ -75,7 +71,7 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
       )}
 
       <div className="flex flex-col gap-2">
-        <p className="text-base-medium text-grey-2">Quantity:</p>
+        <p className="text-base-medium text-grey-2">ຈຳນວນ:</p>
         <div className="flex gap-4 items-center">
           <MinusCircle
             className="hover:text-red-1 cursor-pointer"
@@ -96,11 +92,11 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
             item: productInfo,
             quantity,
             color: selectedColor,
-            size: selectedSize,
+            size: selectedSize.size,
           });
         }}
       >
-        Add To Cart
+        ເພີ່ມລົງກະຕ່າ
       </button>
     </div>
   );

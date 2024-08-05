@@ -1,7 +1,6 @@
 "use client";
 
 import useCart from "@/lib/hooks/useCart";
-
 import { useUser } from "@clerk/nextjs";
 import { MinusCircle, PlusCircle, Trash } from "lucide-react";
 import Image from "next/image";
@@ -18,34 +17,18 @@ const Cart = () => {
   );
   const totalRounded = parseFloat(total.toFixed(2));
 
-  const customer = {
-    clerkId: user?.id,
-    email: user?.emailAddresses[0].emailAddress,
-    name: user?.fullName,
-  };
-
-  const handleCheckout = async () => {
-    try {
-      if (!user) {
-        router.push("sign-in");
-      } else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-          method: "POST",
-          body: JSON.stringify({ cartItems: cart.cartItems, customer }),
-        });
-        const data = await res.json();
-        window.location.href = data.url;
-        console.log(data);
-      }
-    } catch (err) {
-      console.log("[checkout_POST]", err);
+  const handleCheckout = () => {
+    if (!user) {
+      router.push("sign-in");
+    } else {
+      router.push("/checkout");
     }
   };
 
   return (
     <div className="flex gap-20 py-16 px-10 max-lg:flex-col max-sm:px-3">
       <div className="w-2/3 max-lg:w-full">
-        <p className="text-heading3-bold">Shopping Cart</p>
+        <p className="text-heading3-bold font-notosanslao">ກະຕ່າສິນຄ້າ</p>
         <hr className="my-6" />
 
         {cart.cartItems.length === 0 ? (
@@ -70,7 +53,7 @@ const Cart = () => {
                     {cartItem.size && (
                       <p className="text-small-medium">{cartItem.size}</p>
                     )}
-                    <p className="text-small-medium">${cartItem.item.price}</p>
+                    <p className="text-small-medium">₭{cartItem.item.price}</p>
                   </div>
                 </div>
 
@@ -96,22 +79,22 @@ const Cart = () => {
         )}
       </div>
 
-      <div className="w-1/3 max-lg:w-full flex flex-col gap-8 bg-grey-1 rounded-lg px-4 py-5">
+      <div className="w-1/3 max-lg:w-full flex flex-col gap-8 bg-grey-1 rounded-lg px-4 py-5 font-notosanslao">
         <p className="text-heading4-bold pb-4">
-          Summary{" "}
+          ຈຳນວນສິນຄ້າທັງໝົດ{" "}
           <span>{`(${cart.cartItems.length} ${
             cart.cartItems.length > 1 ? "items" : "item"
           })`}</span>
         </p>
         <div className="flex justify-between text-body-semibold">
-          <span>Total Amount</span>
-          <span>$ {totalRounded}</span>
+          <span>ລາຄາ</span>
+          <span>₭{totalRounded}</span>
         </div>
         <button
           className="border rounded-lg text-body-bold bg-white py-3 w-full hover:bg-black hover:text-white"
           onClick={handleCheckout}
         >
-          Proceed to Checkout
+          ດຳເນີນການຊຳລະເງິນ
         </button>
       </div>
     </div>

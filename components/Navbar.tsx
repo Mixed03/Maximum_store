@@ -1,13 +1,12 @@
 "use client";
 
 import useCart from "@/lib/hooks/useCart";
-
 import { UserButton, useUser } from "@clerk/nextjs";
 import { CircleUserRound, Menu, Search, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -18,43 +17,68 @@ const Navbar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false);
   const [query, setQuery] = useState("");
 
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap";
+      "https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <div className="sticky top-0 z-10 py-2 px-10 flex gap-2 justify-between items-center bg-white max-sm:px-2">
       <Link href="/">
-        <Image src="/maximumLogo.png" alt="logo" width={130} height={100} />
+        {/* <Image src="/maximumLogo.png" alt="logo" width={130} height={100} /> */}
+        <p className="text-heading2-bold font-urbanist font-black">
+          MAXIMUM STORE
+        </p>
       </Link>
 
-      <div className="flex gap-4 text-base-bold max-lg:hidden">
+      <div className="flex gap-4 text-base-bold max-lg:hidden font-notosanslao">
         <Link
           href="/"
-          className={`hover:text-red-1 ${
-            pathname === "/" && "text-red-1"
-          }`}
+          className={`hover:text-red-1 ${pathname === "/" && "text-red-1"}`}
         >
-          Home
+          ໜ້າຫຼັກ
         </Link>
-        <Link
+
+        <p>|</p>
+        
+        {/* <Link
           href={user ? "/wishlist" : "/sign-in"}
           className={`hover:text-red-1 ${
             pathname === "/wishlist" && "text-red-1"
           }`}
         >
           Wishlist
+        </Link> */}
+
+        <Link
+          href={user ? "/designs" : "/sign-in"}
+          className={`hover:text-red-1 ${
+            pathname === "/designs" && "text-red-1"
+          }`}
+        >
+          ອອກແບບ
         </Link>
+
+        <p>|</p>
+
         <Link
           href={user ? "/orders" : "/sign-in"}
           className={`hover:text-red-1 ${
             pathname === "/orders" && "text-red-1"
           }`}
         >
-          Orders
+          ຄຳສັ່ງຊື້
         </Link>
       </div>
 
-      <div className="flex gap-3 border border-grey-2 px-3 py-1 items-center rounded-lg">
+      <div className="flex gap-3 border border-grey-2 px-3 py-1 items-center rounded-lg font-notosanslao">
         <input
           className="outline-none max-sm:max-w-[120px]"
-          placeholder="Search..."
+          placeholder="ຄົ້ນຫາ..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -66,13 +90,13 @@ const Navbar = () => {
         </button>
       </div>
 
-      <div className="relative flex gap-3 items-center">
+      <div className="relative flex gap-3 items-center font-notosanslao">
         <Link
           href="/cart"
-          className="flex items-center gap-3 border rounded-lg px-2 py-1 hover:bg-black hover:text-white max-md:hidden"
+          className="flex items-center gap-3 border-2 rounded-lg px-2 py-1 hover:bg-black hover:text-white max-md:hidden"
         >
           <ShoppingCart />
-          <p className="text-base-bold">Cart ({cart.cartItems.length})</p>
+          <p className="text-base-bold">ກະຕ່າ ({cart.cartItems.length})</p>
         </Link>
 
         <Menu
@@ -81,21 +105,29 @@ const Navbar = () => {
         />
 
         {dropdownMenu && (
-          <div className="absolute top-12 right-5 flex flex-col gap-4 p-3 rounded-lg border bg-white text-base-bold lg:hidden">
+          <div className="absolute top-12 right-5 flex flex-col gap-4 p-3 rounded-lg border bg-white text-base-bold lg:hidden font-notosanslao">
             <Link href="/" className="hover:text-red-1">
-              Home
+              ໜ້າຫຼັກ
             </Link>
-            <Link
+            {/* <Link
               href={user ? "/wishlist" : "/sign-in"}
               className="hover:text-red-1"
             >
               Wishlist
+            </Link> */}
+
+            <Link
+              href={user ? "/designs" : "/sign-in"}
+              className="hover:text-red-1"
+            >
+              ອອກແບບ
             </Link>
+
             <Link
               href={user ? "/orders" : "/sign-in"}
               className="hover:text-red-1"
             >
-              Orders
+              ຄຳສັ່ງຊື້
             </Link>
             <Link
               href="/cart"
